@@ -10,7 +10,7 @@ def updateinfo():
     if(flask.request.method=="POST"):
         info=flask.request.data
         print(info)
-        return jsonify(
+        return flask.jsonify(
                 message="good test",
                 category="success",
                 data=data,
