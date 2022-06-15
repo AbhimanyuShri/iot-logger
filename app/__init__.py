@@ -13,7 +13,6 @@ def updateinfo():
         return flask.jsonify(
                 message="good test",
                 category="success",
-                data=data,
                 status=200
             )
 
