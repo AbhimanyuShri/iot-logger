@@ -7,8 +7,8 @@ app = flask.Flask(__name__)
 
 @app.route("/update",methods=["POST"])
 def updateinfo():
-    if(requests.method=="POST"):
-        info=requests.data
+    if(flask.request.method=="POST"):
+        info=flask.request.data
         print(info)
 
 @app.route("/")
