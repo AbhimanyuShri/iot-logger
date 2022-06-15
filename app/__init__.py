@@ -10,6 +10,12 @@ def updateinfo():
     if(flask.request.method=="POST"):
         info=flask.request.data
         print(info)
+        return jsonify(
+                message="good test",
+                category="success",
+                data=data,
+                status=200
+            )
 
 @app.route("/")
 def home_view():
