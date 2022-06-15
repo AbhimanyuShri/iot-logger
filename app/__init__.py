@@ -4,6 +4,13 @@ from authlib.flask.client import OAuth
 
 app = flask.Flask(__name__)
 
+
+@app.route("/update",methods=["POST"])
+def updateinfo():
+    if(requests.method=="POST"):
+        info=requests.data
+        print(info)
+
 @app.route("/")
 def home_view():
     return "<p>hello</p>"
