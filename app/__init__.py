@@ -8,7 +8,9 @@ app = flask.Flask(__name__)
 @app.route("/update",methods=["POST"])
 def updateinfo():
     if(flask.request.method=="POST"):
-        info=flask.request.data
+        info=flask.request.json
+        print(info["temp"])
+        print(info["distance"])
         print(info)
         return flask.jsonify(
                 message="good test",
@@ -21,11 +23,3 @@ def home_view():
     return "<p>hello</p>"
 
 
-@app.route("/abc")
-def abc():
-    return jsonify(
-                message="good test",
-                category="success",
-                data=data,
-                status=200
-            )
