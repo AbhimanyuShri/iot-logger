@@ -18,9 +18,36 @@ heroku_cli="heroku pg:psql postgresql-metric-77907 --app rpi-iot-logger"
 def updateinfo():
     if(flask.request.method=="POST"):
         info=flask.request.json
-        print(info["temp"])
-        print(info["distance"])
-        print(info)
+
+        distance=info["distance"]
+        temp=info["temp"]
+        
+        command="SELECT Led1, Led2 FROM abhi_table"
+        conn=psycopg2.connect(uri, sslmode='require')
+        cur=conn.cursor()
+        cur.execute(command)
+
+        led1,led2=cur.fetchone()
+
+        if(led1==True):
+            led1="TRUE"
+        else:
+            led1="FALSE"
+
+         if(led2==True):
+            led2="TRUE"
+        else:
+            led2="FALSE"
+
+        
+        command="INSERT INTO abhi_table (Temperature, Distance, Led1, Led2) VALUES("+str(temp)+", "+str(distance)+", "+led1+", "+led2+")"
+
+        cur.execute(command)
+        conn.commit()
+        
+        conn.close()
+
+        
         return flask.jsonify(
                 message="good test",
                 category="success",
