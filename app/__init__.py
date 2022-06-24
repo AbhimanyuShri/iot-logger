@@ -1,7 +1,7 @@
 import flask,requests,json 
 import jinja2
 from authlib.flask.client import OAuth
-
+import psycopg2
 app = flask.Flask(__name__)
 
 host="ec2-107-22-238-112.compute-1.amazonaws.com"
