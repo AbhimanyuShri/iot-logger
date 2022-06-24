@@ -34,7 +34,7 @@ def updateinfo():
         else:
             led1="FALSE"
 
-         if(led2==True):
+        if(led2==True):
             led2="TRUE"
         else:
             led2="FALSE"
