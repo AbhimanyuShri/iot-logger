@@ -18,12 +18,24 @@ ledchanged=False
 
 @app.route("/ledupdate",methods=["POST"])
 def ledupdate():
+    global ledchanged,led1status,led2status
     if(flask.request.method=="POST"):
-        info=json.dumps(flask.request.form)
+        info=flask.request.form
         print(info)
+        print(type(info))
         led1status=info["led1"]
         led2status=info["led2"]
         ledchanged=True
+
+        if(led1status=="true"):
+            led1status=True
+        else:
+            led1status=False
+
+        if(led2status=="true"):
+            led2status=True
+        else:
+            led2status=False
 
         return flask.jsonify(
                 message="good test",
@@ -34,16 +46,18 @@ def ledupdate():
 
 @app.route("/update",methods=["POST"])
 def updateinfo():
+    global ledchanged
     if(flask.request.method=="POST"):
         info=flask.request.json
 
         distance=info["distance"]
         temp=info["temp"]
 
-
+        print(led1status)
         if(ledchanged==True):
             led1=led1status
             led2=led2status
+            ledchanged = False
         else:
             command="SELECT Led1, Led2 FROM abhi_table"
             conn=psycopg2.connect(uri, sslmode='require')
