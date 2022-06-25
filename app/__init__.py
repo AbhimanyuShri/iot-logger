@@ -54,6 +54,7 @@ def updateinfo():
         temp=info["temp"]
 
         print(led1status)
+        print(led2status)
         if(ledchanged==True):
             led1=led1status
             led2=led2status
@@ -65,7 +66,8 @@ def updateinfo():
             cur.execute(command)
 
             led1,led2=cur.fetchone()
-
+        print(led1)
+        print(led2)
         if(led1==True):
             led1="TRUE"
         else:
@@ -76,7 +78,8 @@ def updateinfo():
         else:
             led2="FALSE"
 
-            
+        print(led1)
+        print(led2)
 
         
         command="INSERT INTO abhi_table (Temperature, Distance, Led1, Led2) VALUES("+str(temp)+", "+str(distance)+", "+led1+", "+led2+")"
