@@ -53,7 +53,7 @@ def updateinfo():
         distance=info["distance"]
         temp=info["temp"]
 
-      
+        print(led1status)
         if(ledchanged==True):
             led1=led1status
             led2=led2status
