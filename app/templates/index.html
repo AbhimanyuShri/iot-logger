@@ -12,11 +12,11 @@
 
 <form>
 	<div class="form-check form-switch">
-	  <input class="form-check-input" type="checkbox" role="switch" id="switch1" name="led1" checked>
+	  <input class="form-check-input" type="checkbox" role="switch" id="switch1" name="led1" {% if l1 == True%}checked{%endif%}>
 	  <label class="form-check-label" for="flexSwitchCheckChecked">LED 1</label>
 	</div>
 	<div class="form-check form-switch">
-	  <input class="form-check-input" type="checkbox" role="switch" id="switch2" name="led2"  checked>
+	  <input class="form-check-input" type="checkbox" role="switch" id="switch2" name="led2" {% if l2 == True%} checked {%endif%}>
 	  <label class="form-check-label" for="flexSwitchCheckChecked">LED 2</label>
 	</div>
 </form>

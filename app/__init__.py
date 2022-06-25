@@ -56,8 +56,6 @@ def updateinfo():
         distance=info["distance"]
         temp=info["temp"]
 
-        print(led1status)
-        print(led2status)
         if(ledchanged==True):
             led1=led1status
             led2=led2status
@@ -68,8 +66,6 @@ def updateinfo():
             cur.execute(command)
 
             led1,led2=cur.fetchone()
-        print(led1)
-        print(led2)
         if(led1==True):
             led1="TRUE"
         else:
@@ -79,10 +75,6 @@ def updateinfo():
             led2="TRUE"
         else:
             led2="FALSE"
-
-        print(led1)
-        print(led2)
-
         
         command="INSERT INTO abhi_table (Temperature, Distance, Led1, Led2) VALUES("+str(temp)+", "+str(distance)+", "+led1+", "+led2+")"
 
@@ -100,6 +92,16 @@ def updateinfo():
 
 @app.route("/")
 def home_view():
-    return flask.render_template("index.html")
+    conn=psycopg2.connect(uri, sslmode='require')
+    cur=conn.cursor()
+
+    command="SELECT Led1, Led2 FROM abhi_table order by id desc"
+            
+    cur.execute(command)
+
+    led1,led2=cur.fetchone()
+
+    conn.close()
+    return flask.render_template("index.html",l1=led1,l2=led2)
 
 
