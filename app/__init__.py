@@ -16,6 +16,25 @@ led1status=False
 led2status=False
 ledchanged=False
 
+@app.route("/therandomobject",methods=["GET"])
+def therandomobject():
+    if(flask.request.method=="GET"):
+        cur=conn.cursor()
+
+        command="SELECT Led1, Led2 FROM abhi_table order by id desc"
+                
+        cur.execute(command)
+
+        led1,led2=cur.fetchone()
+      
+     
+
+        return flask.jsonify(
+                message="good test",
+                category="success",
+                status=200
+            )
+
 @app.route("/ledupdate",methods=["POST"])
 def ledupdate():
     global ledchanged,led1status,led2status
