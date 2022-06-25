@@ -48,6 +48,9 @@ def ledupdate():
 def updateinfo():
     global ledchanged
     if(flask.request.method=="POST"):
+        conn=psycopg2.connect(uri, sslmode='require')
+        cur=conn.cursor()
+            
         info=flask.request.json
 
         distance=info["distance"]
@@ -61,8 +64,7 @@ def updateinfo():
             ledchanged = False
         else:
             command="SELECT Led1, Led2 FROM abhi_table"
-            conn=psycopg2.connect(uri, sslmode='require')
-            cur=conn.cursor()
+            
             cur.execute(command)
 
             led1,led2=cur.fetchone()
