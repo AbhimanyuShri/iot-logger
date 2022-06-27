@@ -30,9 +30,7 @@ def therandomobject():
      
 
         return flask.jsonify(
-                message="good test",
-                category="success",
-                status=200
+                {"led1":led1,"led2":led2}
             )
 
 @app.route("/ledupdate",methods=["POST"])
