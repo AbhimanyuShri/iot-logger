@@ -19,6 +19,7 @@ ledchanged=False
 @app.route("/therandomobject",methods=["GET"])
 def therandomobject():
     if(flask.request.method=="GET"):
+        conn=psycopg2.connect(uri, sslmode='require')
         cur=conn.cursor()
 
         command="SELECT Led1, Led2 FROM abhi_table order by id desc"
