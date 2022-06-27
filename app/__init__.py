@@ -39,8 +39,6 @@ def ledupdate():
     global ledchanged,led1status,led2status
     if(flask.request.method=="POST"):
         info=flask.request.form
-        print(info)
-        print(type(info))
         led1status=info["led1"]
         led2status=info["led2"]
         ledchanged=True
