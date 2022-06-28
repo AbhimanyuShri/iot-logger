@@ -4,6 +4,9 @@
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 </head>
 
 
@@ -21,8 +24,76 @@
 	</div>
 </form>
 
+<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+<canvas id="myChart2" style="width:100%;max-width:700px"></canvas>
+
 
 <script>
+
+var xValues = [10,20,30,40,50,60,70,80,90,100];
+
+var chartTemp = new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: {{tempData}},
+      borderColor: "red",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+});
+
+var chartDist = new Chart("myChart2", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: {{distData}},
+      borderColor: "green",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+});
+
+function addData(chart, label, tempdata) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
+function runFunction(){
+$.ajax({
+                type: "GET",
+                url: "/therandomobject",
+                cache: false,
+                success: function(response){
+					var tempData = response["tempData"];
+					var distData = response["distData"];
+                    removeData(chartTemp);
+					removeData(chartDist);
+					addData(chartTemp, xValues, tempData)
+					addData(chartDist, xValues, distData)
+                }
+            });
+}
+var t=setInterval(runFunction,6000);
 
 function sendupdate(){
 var led1=false;

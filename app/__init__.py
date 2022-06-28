@@ -27,11 +27,26 @@ def therandomobject():
         cur.execute(command)
 
         led1,led2=cur.fetchone()
-      
+
+        command="SELECT Temperature, Distance FROM abhi_table order by id"
+            
+        cur.execute(command)
+
+        dataset=cur.fetchall()
+
+        tempData = []
+        distData = []
+        for data in dataset:
+            temp, dist = data
+            tempData.append(temp)
+            distData.append(dist)
+
+        tempData = tempData[-10:]
+        distData = distData[-10:]
         conn.close()
 
         return flask.jsonify(
-                {"led1":led1,"led2":led2}
+                {"led1":led1,"led2":led2,"tempData":tempData,"distData":distData}
             )
 
 @app.route("/ledupdate",methods=["POST"])
@@ -118,7 +133,21 @@ def home_view():
 
     led1,led2=cur.fetchone()
 
+    command="SELECT Temperature, Distance FROM abhi_table order by id"
+            
+    cur.execute(command)
+
+    dataset=cur.fetchall()
+
+    tempData = []
+    distData = []
+    for data in dataset:
+        temp, dist = data
+        tempData.append(temp)
+        distData.append(dist)
+    tempData = tempData[-10:]
+    distData = distData[-10:]
     conn.close()
-    return flask.render_template("index.html",l1=led1,l2=led2)
+    return flask.render_template("index.html",l1=led1,l2=led2,tempData = tempData,distData = distData)
 
 
