@@ -22,7 +22,7 @@ def therandomobject():
         conn=psycopg2.connect(uri, sslmode='require')
         cur=conn.cursor()
 
-        command="SELECT Led1, Led2 FROM abhi_table order by id desc"
+        command="SELECT Led1, Led2 FROM abhi_table order by id asc"
                 
         cur.execute(command)
 
