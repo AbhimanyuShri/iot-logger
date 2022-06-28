@@ -22,13 +22,13 @@ def therandomobject():
         conn=psycopg2.connect(uri, sslmode='require')
         cur=conn.cursor()
 
-        command="SELECT Led1, Led2 FROM abhi_table order by id asc"
-                
+        command="SELECT Led1, Led2 FROM abhi_table order by id desc"
+            
         cur.execute(command)
 
         led1,led2=cur.fetchone()
       
-     
+        conn.close()
 
         return flask.jsonify(
                 {"led1":led1,"led2":led2}
@@ -62,7 +62,7 @@ def ledupdate():
 
 @app.route("/update",methods=["POST"])
 def updateinfo():
-    global ledchanged
+    global ledchanged,led1status,led2status
     if(flask.request.method=="POST"):
         conn=psycopg2.connect(uri, sslmode='require')
         cur=conn.cursor()
@@ -77,7 +77,7 @@ def updateinfo():
             led2=led2status
             ledchanged = False
         else:
-            command="SELECT Led1, Led2 FROM abhi_table"
+            command="SELECT Led1, Led2 FROM abhi_table order by id desc"
             
             cur.execute(command)
 
@@ -108,6 +108,7 @@ def updateinfo():
 
 @app.route("/")
 def home_view():
+    global ledchanged,led1status,led2status
     conn=psycopg2.connect(uri, sslmode='require')
     cur=conn.cursor()
 
