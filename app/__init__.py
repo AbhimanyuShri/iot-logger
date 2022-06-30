@@ -16,6 +16,38 @@ led1status=False
 led2status=False
 ledchanged=False
 
+@app.route("/therandomobject2",methods=["GET"])
+def therandomobject2():
+    if(flask.request.method=="GET"):
+        conn=psycopg2.connect(uri, sslmode='require')
+        cur=conn.cursor()
+
+        command="SELECT Led1, Led2 FROM abhi_table order by id desc"
+            
+        cur.execute(command)
+
+        led1,led2=cur.fetchone()
+
+        command="SELECT Temperature, Distance FROM abhi_table order by id"
+            
+        cur.execute(command)
+
+        dataset=cur.fetchall()
+
+        tempData = []
+        distData = []
+        for data in dataset:
+            temp, dist = data
+            tempData.append(temp)
+            distData.append(dist)
+
+        tempData = tempData[-11:]
+        distData = distData[-11:]
+        conn.close()
+
+        return flask.jsonify(
+                {"led1":led1,"led2":led2,"tempData":tempData,"distData":distData}
+            )
 @app.route("/therandomobject",methods=["GET"])
 def therandomobject():
     if(flask.request.method=="GET"):
@@ -41,14 +73,13 @@ def therandomobject():
             tempData.append(temp)
             distData.append(dist)
 
-        tempData = tempData[-10:]
-        distData = distData[-10:]
+        tempData = tempData[-11:]
+        distData = distData[-11:]
         conn.close()
 
         return flask.jsonify(
                 {"led1":led1,"led2":led2,"tempData":tempData,"distData":distData}
             )
-
 @app.route("/ledupdate",methods=["POST"])
 def ledupdate():
     global ledchanged,led1status,led2status
@@ -145,8 +176,8 @@ def home_view():
         temp, dist = data
         tempData.append(temp)
         distData.append(dist)
-    tempData = tempData[-10:]
-    distData = distData[-10:]
+    tempData = tempData[-11:]
+    distData = distData[-11:]
     conn.close()
     return flask.render_template("index.html",l1=led1,l2=led2,tempData = tempData,distData = distData)
 

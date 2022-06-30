@@ -62,8 +62,8 @@ var chartDist = new Chart("myChart2", {
   }
 });
 
-function addData(chart, label, tempdata) {
-    chart.data.labels.push(label);
+function addData(chart, label, data) {
+    //chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
     });
@@ -71,7 +71,7 @@ function addData(chart, label, tempdata) {
 }
 
 function removeData(chart) {
-    chart.data.labels.pop();
+    //chart.data.labels.pop();
     chart.data.datasets.forEach((dataset) => {
         dataset.data.pop();
     });
@@ -81,11 +81,12 @@ function removeData(chart) {
 function runFunction(){
 $.ajax({
                 type: "GET",
-                url: "/therandomobject",
+                url: "/therandomobject2",
                 cache: false,
                 success: function(response){
 					var tempData = response["tempData"];
 					var distData = response["distData"];
+					console.log(tempData.length);
                     removeData(chartTemp);
 					removeData(chartDist);
 					addData(chartTemp, xValues, tempData)
